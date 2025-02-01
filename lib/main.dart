@@ -232,7 +232,7 @@ class _CustomTextField extends StatelessWidget {
 
   const _CustomTextField({
     required this.hintText,
-    this.isPassword = true,
+    this.isPassword = false,
   });
 
   @override

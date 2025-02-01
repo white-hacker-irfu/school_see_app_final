@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const ForgotPasswordPage());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -160,7 +160,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   const SizedBox(height: 35),
                   ElevatedButton(
                     onPressed: () {
-                      // Add your OTP validation logic here
+                      // Navigate to the placeholder screen
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const PlaceholderScreen(),
+                        ),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
@@ -182,6 +188,25 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class PlaceholderScreen extends StatelessWidget {
+  const PlaceholderScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Placeholder Screen'),
+      ),
+      body: Center(
+        child: const Text(
+          'You have navigated to the placeholder screen.',
+          style: TextStyle(fontSize: 18),
+        ),
       ),
     );
   }
