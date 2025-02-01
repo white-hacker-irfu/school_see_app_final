@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'attendence_page.dart';
+import 'digitalclasses.dart';
+import 'fee_status.dart';
+import 'resul_tpage.dart';
+import 'navigation.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +30,14 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Image constants
+    const String schoolImage = 'assets/images/school.png';
+    const String school1Image = 'assets/images/school1.png';
+    const String sportsImage = 'assets/images/sports.png';
+
+    // Carousel image list
+    final List<String> carouselImages = [schoolImage, school1Image, sportsImage];
+
     return Scaffold(
       backgroundColor: const Color(0xFFF5F7FB),
       body: SafeArea(
@@ -40,7 +54,7 @@ class DashboardScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'School See !',
+                        'School See!',
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -54,27 +68,41 @@ class DashboardScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 30,
-                    backgroundImage: const AssetImage(
-                      'assets/images/school_see_logo.png',
-                    ),
+                    backgroundImage: AssetImage('assets/images/school_see_logo.png'),
                   ),
                 ],
               ),
               const SizedBox(height: 20),
-              // Search Bar
-              TextField(
-                decoration: InputDecoration(
-                  hintText: 'Search',
-                  prefixIcon: const Icon(Icons.search),
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
+              // Carousel Slider
+              CarouselSlider(
+                options: CarouselOptions(
+                  height: 150.0,
+                  autoPlay: true,
+                  autoPlayInterval: const Duration(seconds: 2),
+                  autoPlayAnimationDuration: const Duration(milliseconds: 800),
+                  autoPlayCurve: Curves.fastOutSlowIn,
+                  enlargeCenterPage: true,
+                  viewportFraction: 0.9,
                 ),
+                items: carouselImages.map((imageUrl) {
+                  return Builder(
+                    builder: (BuildContext context) {
+                      return Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          image: DecorationImage(
+                            image: AssetImage(imageUrl),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }).toList(),
               ),
               const SizedBox(height: 20),
               // Dashboard Items
@@ -86,13 +114,28 @@ class DashboardScreen extends StatelessWidget {
                   childAspectRatio: 0.8,
                   children: [
                     _DashboardCard(
+                      title: 'Student Attendance',
+                      icon: Icons.person_rounded,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const AttendencePage(
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                    _DashboardCard(
                       title: 'Digital Classes',
                       icon: Icons.cast_for_education,
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const DigitalClassesScreen()),
+                            builder: (context) => const Digitalclasses(
+                            ),
+                          ),
                         );
                       },
                     ),
@@ -103,7 +146,9 @@ class DashboardScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const FeeStatusScreen()),
+                            builder: (context) =>  FeeStatusPage(
+                            ),
+                          ),
                         );
                       },
                     ),
@@ -114,7 +159,10 @@ class DashboardScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const BusTrackingScreen()),
+                            builder: (context) => const PlaceholderScreen(
+                              title: 'Bus Tracking',
+                            ),
+                          ),
                         );
                       },
                     ),
@@ -125,7 +173,10 @@ class DashboardScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const SchoolCalendarScreen()),
+                            builder: (context) => const PlaceholderScreen(
+                              title: 'School Calendar',
+                            ),
+                          ),
                         );
                       },
                     ),
@@ -136,7 +187,10 @@ class DashboardScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const AssignmentsScreen()),
+                            builder: (context) => const PlaceholderScreen(
+                              title: 'Assignments',
+                            ),
+                          ),
                         );
                       },
                     ),
@@ -147,7 +201,9 @@ class DashboardScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const ResultsScreen()),
+                            builder: (context) =>  ResultsPage(
+                            ),
+                          ),
                         );
                       },
                     ),
@@ -210,75 +266,35 @@ class _DashboardCard extends StatelessWidget {
   }
 }
 
-// Placeholder screens for each dashboard item
-class DigitalClassesScreen extends StatelessWidget {
-  const DigitalClassesScreen({Key? key}) : super(key: key);
+class PlaceholderScreen extends StatelessWidget {
+  final String title;
+
+  const PlaceholderScreen({required this.title, super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Digital Classes')),
-      body: const Center(child: Text('Digital Classes Screen')),
+      appBar: AppBar(title: Text(title)),
+      body: Center(child: Text('$title Screen')),
     );
   }
 }
-
-class FeeStatusScreen extends StatelessWidget {
-  const FeeStatusScreen({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Fee Status')),
-      body: const Center(child: Text('Fee Status Screen')),
+    return MaterialApp(
+      title: 'Dashboard Screen',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Dashboard'),
+        ),
+        body: Center(
+          child: Text('Welcome to the Dashboard!'),
+        ),
+        bottomNavigationBar: const Navigation(),
+      ),
     );
   }
-}
 
-class BusTrackingScreen extends StatelessWidget {
-  const BusTrackingScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Bus Tracking')),
-      body: const Center(child: Text('Bus Tracking Screen')),
-    );
-  }
-}
-
-class SchoolCalendarScreen extends StatelessWidget {
-  const SchoolCalendarScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('School Calendar')),
-      body: const Center(child: Text('School Calendar Screen')),
-    );
-  }
-}
-
-class AssignmentsScreen extends StatelessWidget {
-  const AssignmentsScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Assignments')),
-      body: const Center(child: Text('Assignments Screen')),
-    );
-  }
-}
-
-class ResultsScreen extends StatelessWidget {
-  const ResultsScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Results')),
-      body: const Center(child: Text('Results Screen')),
-    );
-  }
-}

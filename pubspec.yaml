@@ -34,7 +34,10 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
-  curved_navigation_bar: ^1.0.3
+  curved_navigation_bar: ^1.0.6
+  carousel_slider: ^5.0.0
+  percent_indicator: ^4.2.2
+
 
 dev_dependencies:
   flutter_test:
@@ -60,6 +63,35 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/school_see_logo.png
+    - assets/images/school.png
+    - assets/images/school1.png
+    - assets/images/sports.png
+    - assets/images/english2.png
+    - assets/images/maths.png
+    - assets/images/science.png
+    - assets/images/social.png
+    - assets/images/placeholder.png
+    - assets/images/algebra.png
+    - assets/images/calculas.jpg
+    - assets/images/combinatorics.png
+    - assets/images/complex_numbers.png
+    - assets/images/differential.png
+    - assets/images/discrete.png
+    - assets/images/geometrics.png
+    - assets/images/graphs.png
+    - assets/images/integration.webp
+    - assets/images/linear_algebra.png
+    - assets/images/logic.png
+    - assets/images/matrix.png
+    - assets/images/number_theory.png
+    - assets/images/secure.png
+    - assets/images/set_theory.png
+    - assets/images/statistics.png
+    - assets/images/trigonometry.png
+    - assets/images/vector.jpg
+    
+  
+
 
   # To add assets to your application, add an assets section, like this:
   # assets:

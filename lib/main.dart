@@ -1,6 +1,7 @@
-// main.dart
 import 'package:flutter/material.dart';
-import 'navigation.dart';
+import 'registrationpage.dart';
+import 'dashboard_screen.dart';
+import 'forgetpassword.dart';
 
 void main() {
   runApp(const SchoolSeeApp());
@@ -13,6 +14,7 @@ class SchoolSeeApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'School See - Parent Login',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: Colors.blueGrey,
         fontFamily: 'Arial',
@@ -34,14 +36,31 @@ class AdminLoginPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Logo
+              // Logo with shadow styling
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20.0),
-                child: CircleAvatar(
-                  radius: 70,
-                  backgroundColor: Colors.white,
-                  backgroundImage: const AssetImage(
-                    'assets/images/school_see_logo.png',
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.shade500,
+                        offset: const Offset(5, 5),
+                        blurRadius: 15,
+                      ),
+                      const BoxShadow(
+                        color: Colors.white,
+                        offset: Offset(-5, -5),
+                        blurRadius: 15,
+                      ),
+                    ],
+                  ),
+                  child: CircleAvatar(
+                    radius: 70,
+                    backgroundColor: Colors.white,
+                    backgroundImage: const AssetImage(
+                      'assets/images/school_see_logo.png', // Ensure this path is correct
+                    ),
                   ),
                 ),
               ),
@@ -92,21 +111,28 @@ class AdminLoginPage extends StatelessWidget {
   }
 }
 
-class _LoginForm extends StatelessWidget {
+class _LoginForm extends StatefulWidget {
   const _LoginForm();
+
+  @override
+  State<_LoginForm> createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<_LoginForm> {
+  bool _isPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        // Email Input
+        // Enroll ID Input
         const Text(
-          'Email',
+          'Enroll ID',
           style: TextStyle(fontSize: 16, color: Colors.black87),
         ),
         const SizedBox(height: 8),
-        const _CustomTextField(hintText: 'Enter your email'),
+        const _CustomTextField(hintText: 'Enter your Enroll ID'),
         const SizedBox(height: 16),
         // Password Input
         const Text(
@@ -114,14 +140,37 @@ class _LoginForm extends StatelessWidget {
           style: TextStyle(fontSize: 16, color: Colors.black87),
         ),
         const SizedBox(height: 8),
-        const _CustomTextField(hintText: 'Enter your password', isPassword: true),
+        TextField(
+          obscureText: !_isPasswordVisible,
+          decoration: InputDecoration(
+            hintText: 'Enter your password',
+            filled: true,
+            fillColor: const Color(0xFFE0E5EC),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide.none,
+            ),
+            suffixIcon: IconButton(
+              icon: Icon(
+                _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                color: Colors.red,
+              ),
+              onPressed: () {
+                setState(() {
+                  _isPasswordVisible = !_isPasswordVisible;
+                });
+              },
+            ),
+          ),
+        ),
         const SizedBox(height: 16),
         // Login Button
         ElevatedButton(
           onPressed: () {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (_) => const Navigation()),
+              MaterialPageRoute(builder: (_) => const DashboardScreen ()),
             );
           },
           style: ElevatedButton.styleFrom(
@@ -139,15 +188,38 @@ class _LoginForm extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
-        // Forgot Password
-        TextButton(
-          onPressed: () {
-            // Handle forgot password
-          },
-          child: const Text(
-            'Forgot Password?',
-            style: TextStyle(color: Color(0xFFE53D6D)),
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const RegistrationPage(),
+                  ),
+                );
+              },
+              child: const Text(
+                'Register',
+                style: TextStyle(color: Color(0xFF007AFF)),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ForgotPasswordPage(),
+                  ),
+                );
+              },
+              child: const Text(
+                'Forgot Password?',
+                style: TextStyle(color: Color(0xFFE53D6D)),
+              ),
+            ),
+          ],
         ),
       ],
     );
@@ -160,7 +232,7 @@ class _CustomTextField extends StatelessWidget {
 
   const _CustomTextField({
     required this.hintText,
-    this.isPassword = false,
+    this.isPassword = true,
   });
 
   @override
@@ -176,6 +248,22 @@ class _CustomTextField extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,
         ),
+      ),
+    );
+  }
+}
+
+class ForgetPasswordPage extends StatelessWidget {
+  const ForgetPasswordPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Forgot Password'),
+      ),
+      body: const Center(
+        child: Text('Forgot Password Page Content'),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'dashboard_screen.dart';
+import 'studentdetails_page.dart';
 
 class Navigation extends StatefulWidget {
   const Navigation({super.key});
@@ -19,7 +20,7 @@ class _NavigationState extends State<Navigation> {
     const Placeholder(), // Notifications screen (Placeholder)
     const DashboardScreen(), // Home screen (Dashboard)
     const Placeholder(), // Directions screen (Placeholder)
-    const Placeholder(), // Profile screen (Placeholder)
+    const StudentdetailsPage(), // Profile screen (Placeholder)
   ];
 
   @override
