@@ -4,7 +4,7 @@ import 'attendence_page.dart';
 import 'digitalclasses.dart';
 import 'fee_status.dart';
 import 'resul_tpage.dart';
-import 'navigation.dart';
+import 'busTrackingScreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -159,8 +159,7 @@ class DashboardScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const PlaceholderScreen(
-                              title: 'Bus Tracking',
+                            builder: (context) => BusTrackingScreen(
                             ),
                           ),
                         );
@@ -201,8 +200,7 @@ class DashboardScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>  ResultsPage(
-                            ),
+                            builder: (context) =>  ResultsPage(),
                           ),
                         );
                       },
@@ -279,22 +277,4 @@ class PlaceholderScreen extends StatelessWidget {
     );
   }
 }
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Dashboard Screen',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Dashboard'),
-        ),
-        body: Center(
-          child: Text('Welcome to the Dashboard!'),
-        ),
-        bottomNavigationBar: const Navigation(),
-      ),
-    );
-  }
 
