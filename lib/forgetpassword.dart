@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'otp_verification.dart';
 
 void main() {
   runApp(const MyApp());
@@ -164,7 +165,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const PlaceholderScreen(),
+                          builder: (context) => OTPVerificationScreen(),
                         ),
                       );
                     },

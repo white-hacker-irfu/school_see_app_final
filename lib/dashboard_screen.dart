@@ -5,6 +5,7 @@ import 'digitalclasses.dart';
 import 'fee_status.dart';
 import 'resul_tpage.dart';
 import 'busTrackingScreen.dart';
+import 'navigation.dart';
 
 void main() {
   runApp(const MyApp());
@@ -120,8 +121,7 @@ class DashboardScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const AttendencePage(
-                            ),
+                            builder: (context) => Navigation(initialScreen: const AttendencePage()),
                           ),
                         );
                       },
@@ -133,8 +133,7 @@ class DashboardScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const Digitalclasses(
-                            ),
+                            builder: (context) => Navigation(initialScreen: const Digitalclasses()),
                           ),
                         );
                       },
@@ -146,8 +145,7 @@ class DashboardScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>  FeeStatusPage(
-                            ),
+                            builder: (context) => Navigation(initialScreen: FeeStatusPage()),
                           ),
                         );
                       },
@@ -159,8 +157,7 @@ class DashboardScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => BusTrackingScreen(
-                            ),
+                            builder: (context) => Navigation(initialScreen: BusTrackingScreen()),
                           ),
                         );
                       },
@@ -172,9 +169,7 @@ class DashboardScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const PlaceholderScreen(
-                              title: 'School Calendar',
-                            ),
+                            builder: (context) => Navigation(initialScreen: const PlaceholderScreen(title: 'School Calendar')),
                           ),
                         );
                       },
@@ -186,9 +181,7 @@ class DashboardScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const PlaceholderScreen(
-                              title: 'Assignments',
-                            ),
+                            builder: (context) => Navigation(initialScreen: const PlaceholderScreen(title: 'Assignments')),
                           ),
                         );
                       },
@@ -200,7 +193,7 @@ class DashboardScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>  ResultsPage(),
+                            builder: (context) => Navigation(initialScreen: ResultsPage()),
                           ),
                         );
                       },

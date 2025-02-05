@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'registrationpage.dart';
 import 'forgetpassword.dart';
 import 'navigation.dart';
+import 'dashboard_screen.dart';
 
 void main() {
   runApp(const SchoolSeeApp());
@@ -170,7 +171,9 @@ class _LoginFormState extends State<_LoginForm> {
           onPressed: () {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (_) => const Navigation()),
+              MaterialPageRoute(
+                builder: (_) => Navigation(initialScreen: const DashboardScreen()), // Pass initialScreen
+              ),
             );
           },
           style: ElevatedButton.styleFrom(
@@ -187,6 +190,7 @@ class _LoginFormState extends State<_LoginForm> {
             ),
           ),
         ),
+
         const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

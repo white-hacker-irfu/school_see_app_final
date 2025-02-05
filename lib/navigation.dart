@@ -1,45 +1,60 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'dashboard_screen.dart';
+import 'attendence_page.dart';
+import 'digitalclasses.dart';
+import 'fee_status.dart';
+import 'busTrackingScreen.dart';
+import 'resul_tpage.dart';
 
 class Navigation extends StatefulWidget {
-  const Navigation({super.key});
+  final Widget initialScreen; // Accepts the screen to display first
+
+  const Navigation({super.key, required this.initialScreen});
 
   @override
   _NavigationState createState() => _NavigationState();
 }
 
 class _NavigationState extends State<Navigation> {
-  // Set the default selected index to 2 (center/home icon)
-  int _selectedIndex = 2;
+  int _selectedIndex = 2; // Default to Home
 
-  // Screens corresponding to the navigation bar items
+  // Screens for each tab
   final List<Widget> _screens = [
-    const Placeholder(), // Assignment screen (Placeholder)
-    const Placeholder(), // Notifications screen (Placeholder)
-    const DashboardScreen(), // Home screen (Dashboard)
-    const Placeholder(), // Directions screen (Placeholder)
-    const Placeholder(), // Profile screen (Placeholder)
+    const Placeholder(), // Assignments
+    const Placeholder(), // Notifications
+    const DashboardScreen(), // Home
+    const Placeholder(), // Directions
+    const Placeholder(), // Profile
   ];
+
+  late Widget _currentScreen;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentScreen = widget.initialScreen; // Set initial screen
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screens[_selectedIndex], // Display the currently selected screen
+      body: _currentScreen,
       bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.transparent, // Background behind the navigation bar
-        color: Colors.blueGrey, // Color of the navigation bar
+        backgroundColor: Colors.transparent,
+        color: Colors.blueGrey,
         items: const [
-          Icon(Icons.assignment, size: 30, color: Colors.white), // Assignment icon
-          Icon(Icons.notifications, size: 30, color: Colors.white), // Notifications icon
-          Icon(Icons.home, size: 30, color: Colors.white), // Home icon
-          Icon(Icons.directions_bus, size: 30, color: Colors.white), // Directions icon
-          Icon(Icons.person, size: 30, color: Colors.white), // Profile icon
+          Icon(Icons.assignment, size: 30, color: Colors.white),
+          Icon(Icons.notifications, size: 30, color: Colors.white),
+          Icon(Icons.home, size: 30, color: Colors.white),
+          Icon(Icons.directions_bus, size: 30, color: Colors.white),
+          Icon(Icons.person, size: 30, color: Colors.white),
         ],
-        index: _selectedIndex, // Set the initial active index
+        index: _selectedIndex,
         onTap: (index) {
           setState(() {
-            _selectedIndex = index; // Update the selected index when an icon is tapped
+            _selectedIndex = index;
+            _currentScreen = _screens[index]; // Change screen when navbar item tapped
           });
         },
       ),
