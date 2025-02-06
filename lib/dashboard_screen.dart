@@ -6,6 +6,7 @@ import 'fee_status.dart';
 import 'resul_tpage.dart';
 import 'busTrackingScreen.dart';
 import 'navigation.dart';
+import 'qa-game.dart';
 
 void main() {
   runApp(const MyApp());
@@ -194,6 +195,18 @@ class DashboardScreen extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                             builder: (context) => Navigation(initialScreen: ResultsPage()),
+                          ),
+                        );
+                      },
+                    ),
+                    _DashboardCard(
+                      title: 'QA Game',
+                      icon: Icons.videogame_asset,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Navigation(initialScreen: QAExamScreen()),
                           ),
                         );
                       },

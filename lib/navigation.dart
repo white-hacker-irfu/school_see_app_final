@@ -8,7 +8,7 @@ import 'busTrackingScreen.dart';
 import 'resul_tpage.dart';
 
 class Navigation extends StatefulWidget {
-  final Widget initialScreen; // Accepts the screen to display first
+  final Widget initialScreen;
 
   const Navigation({super.key, required this.initialScreen});
 
@@ -17,15 +17,14 @@ class Navigation extends StatefulWidget {
 }
 
 class _NavigationState extends State<Navigation> {
-  int _selectedIndex = 2; // Default to Home
+  int _selectedIndex = 2;
 
-  // Screens for each tab
   final List<Widget> _screens = [
-    const Placeholder(), // Assignments
-    const Placeholder(), // Notifications
-    const DashboardScreen(), // Home
-    const Placeholder(), // Directions
-    const Placeholder(), // Profile
+    const Placeholder(),
+    const Placeholder(),
+    const DashboardScreen(),
+    const Placeholder(),
+    const Placeholder(),
   ];
 
   late Widget _currentScreen;
@@ -33,30 +32,51 @@ class _NavigationState extends State<Navigation> {
   @override
   void initState() {
     super.initState();
-    _currentScreen = widget.initialScreen; // Set initial screen
+    _currentScreen = widget.initialScreen;
+  }
+
+  Color _getNavBarBackgroundColor() {
+    if (_currentScreen is DashboardScreen) {
+      return Color(0xFFF5F7FB);
+    } else if (_currentScreen is AttendencePage) {
+      return Colors.blue;
+    } else if (_currentScreen is EducationPage) {
+      return Color(0xFFF5F7FB);
+    } else if (_currentScreen is FeeStatusPage) {
+      return Colors.white;
+    } else if (_currentScreen is BusTrackingScreen) {
+      return Colors.deepPurple;
+    } else if (_currentScreen is ResultsPage) {
+      return Colors.white;
+    } else {
+      return Color(0xFFF5F7FB);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _currentScreen,
-      bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.transparent,
-        color: Colors.blueGrey,
-        items: const [
-          Icon(Icons.assignment, size: 30, color: Colors.white),
-          Icon(Icons.notifications, size: 30, color: Colors.white),
-          Icon(Icons.home, size: 30, color: Colors.white),
-          Icon(Icons.directions_bus, size: 30, color: Colors.white),
-          Icon(Icons.person, size: 30, color: Colors.white),
-        ],
-        index: _selectedIndex,
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-            _currentScreen = _screens[index]; // Change screen when navbar item tapped
-          });
-        },
+      bottomNavigationBar: Container(
+        color: _getNavBarBackgroundColor(),
+        child: CurvedNavigationBar(
+          backgroundColor: Colors.transparent,
+          color: Colors.blueGrey,
+          items: const [
+            Icon(Icons.assignment, size: 30, color: Colors.white),
+            Icon(Icons.notifications, size: 30, color: Colors.white),
+            Icon(Icons.home, size: 30, color: Colors.white),
+            Icon(Icons.directions_bus, size: 30, color: Colors.white),
+            Icon(Icons.person, size: 30, color: Colors.white),
+          ],
+          index: _selectedIndex,
+          onTap: (index) {
+            setState(() {
+              _selectedIndex = index;
+              _currentScreen = _screens[index];
+            });
+          },
+        ),
       ),
     );
   }
