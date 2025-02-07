@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'registrationpage.dart';
 import 'forgetpassword.dart';
 import 'navigation.dart';
+import 'dart:ui';
 
 void main() {
   runApp(const SchoolSeeApp());
@@ -119,7 +120,9 @@ class _LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<_LoginForm> {
-  bool _isPasswordVisible = false;
+  TextEditingController Password_controller = TextEditingController();
+  TextEditingController EnrollId_controller = TextEditingController();
+  final _FormKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -127,51 +130,68 @@ class _LoginFormState extends State<_LoginForm> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         // Enroll ID Input
-        const Text(
-          'Enroll ID',
-          style: TextStyle(fontSize: 16, color: Colors.black87),
-        ),
-        const SizedBox(height: 8),
-        const _CustomTextField(hintText: 'Enter your Enroll ID'),
-        const SizedBox(height: 16),
-        // Password Input
-        const Text(
-          'Password',
-          style: TextStyle(fontSize: 16, color: Colors.black87),
-        ),
-        const SizedBox(height: 8),
-        TextField(
-          obscureText: !_isPasswordVisible,
-          decoration: InputDecoration(
-            hintText: 'Enter your password',
-            filled: true,
-            fillColor: const Color(0xFFE0E5EC),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide.none,
-            ),
-            suffixIcon: IconButton(
-              icon: Icon(
-                _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                color: Colors.red,
-              ),
-              onPressed: () {
-                setState(() {
-                  _isPasswordVisible = !_isPasswordVisible;
-                });
-              },
-            ),
+        // const Text(
+        //   'Enroll ID',
+        //   style: TextStyle(fontSize: 16, color: Colors.black87),
+        // ),
+        // const SizedBox(height: 8),
+        // const _CustomTextField(hintText: 'Enter your Enroll ID'),
+        // const SizedBox(height: 16),
+        // // Password Input
+        // const Text(
+        //   'Password',
+        //   style: TextStyle(fontSize: 16, color: Colors.black87),
+        // ),
+        // const SizedBox(height: 8),
+        // TextField(
+        //   obscureText: !_isPasswordVisible,
+        //   decoration: InputDecoration(
+        //     hintText: 'Enter your password',
+        //     filled: true,
+        //     fillColor: const Color(0xFFE0E5EC),
+        //     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        //     border: OutlineInputBorder(
+        //       borderRadius: BorderRadius.circular(12),
+        //       borderSide: BorderSide.none,
+        //     ),
+        //     suffixIcon: IconButton(
+        //       icon: Icon(
+        //         _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+        //         color: Colors.red,
+        //       ),
+        //       onPressed: () {
+        //         setState(() {
+        //           _isPasswordVisible = !_isPasswordVisible;
+        //         });
+        //       },
+        //     ),
+        //   ),
+        // ),
+
+        Form(
+          key: _FormKey,
+          child: Column(
+            children: [
+              _buildTextField(
+                  'Enroll ID', EnrollId_controller, 'Enter Your Enroll Id'),
+              _buildPasswordField(
+                  'Password', Password_controller, 'Enter Your Password'),
+            ],
           ),
         ),
-        const SizedBox(height: 16),
+
+        SizedBox(height: 16),
         // Login Button
         ElevatedButton(
           onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (_) => const Navigation()),
-            );
+            if (_FormKey.currentState!.validate()) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => const Navigation()),
+              );
+            } else {
+              print("enter all fields");
+            }
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFF97C8D6),
@@ -226,32 +246,33 @@ class _LoginFormState extends State<_LoginForm> {
   }
 }
 
-class _CustomTextField extends StatelessWidget {
-  final String hintText;
-  final bool isPassword;
+// class _CustomTextField extends StatelessWidget {
+//   final String hintText;
+//   final bool isPassword;
 
-  const _CustomTextField({
-    required this.hintText,
-    this.isPassword = false,
-  });
+//   const _CustomTextField({
+//     required this.hintText,
+//     this.isPassword = false,
+//   });
 
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      obscureText: isPassword,
-      decoration: InputDecoration(
-        hintText: hintText,
-        filled: true,
-        fillColor: const Color(0xFFE0E5EC),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return TextField(
+//       obscureText: isPassword,
+//       decoration: InputDecoration(
+//         hintText: hintText,
+//         filled: true,
+//         fillColor: const Color(0xFFE0E5EC),
+//         contentPadding:
+//             const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+//         border: OutlineInputBorder(
+//           borderRadius: BorderRadius.circular(12),
+//           borderSide: BorderSide.none,
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class ForgetPasswordPage extends StatelessWidget {
   const ForgetPasswordPage({super.key});
@@ -267,4 +288,171 @@ class ForgetPasswordPage extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget _buildTextField(
+    String label, TextEditingController controller, String hint) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 8.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+              fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black87),
+        ),
+        const SizedBox(height: 8),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(15),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(
+                sigmaX: 10, sigmaY: 10), // Frosted glass effect
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border(bottom: BorderSide(color: Colors.grey)),
+                color:
+                    const Color.fromARGB(255, 189, 189, 189).withOpacity(0.1),
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  // BoxShadow(
+                  //   color: Colors.black.withOpacity(0.3),
+                  //   blurRadius: 7,
+                  //   offset: Offset(-10, -15), // Top and left
+                  // ),
+                  // // White shadow on bottom-right
+                  // BoxShadow(
+                  //   color: Colors.white.withOpacity(0.7),
+                  //   blurRadius: 7,
+                  //   offset: Offset(10, 10), // Bottom and right
+                  // ),
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.3),
+                    blurRadius: 4,
+                    offset: Offset(-10, -12), // Top and left
+                  ),
+                  // White shadow on bottom-right
+                  BoxShadow(
+                    color: Colors.white.withOpacity(0.7),
+                    blurRadius: 7,
+                    offset: Offset(10, 10), // Bottom and right
+                  ),
+                ],
+              ),
+              child: TextFormField(
+                controller: controller,
+                style: const TextStyle(color: Colors.black87),
+                decoration: InputDecoration(
+                  hintText: hint,
+                  hintStyle: TextStyle(color: Colors.black45.withOpacity(0.6)),
+                  filled: true,
+                  fillColor: Colors.transparent,
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                  border: InputBorder.none,
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter $label';
+                  }
+                  return null;
+                },
+              ),
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget _buildPasswordField(
+    String label, TextEditingController controller, String hint) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 8.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+              fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black87),
+        ),
+        const SizedBox(height: 8),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(15),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(
+                sigmaX: 10, sigmaY: 10), // Frosted glass effect
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border(bottom: BorderSide(color: Colors.grey)),
+                color:
+                    const Color.fromARGB(255, 189, 189, 189).withOpacity(0.1),
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  // BoxShadow(
+                  //   color: Colors.black.withOpacity(0.5),
+                  //   blurRadius: 90,
+                  //   offset: Offset(-20, -20),
+                  // ),
+                  // BoxShadow(
+                  //   color: Colors.white,
+                  //   blurRadius: 13,
+                  //   offset: Offset(
+                  //     5,
+                  //     5,
+                  //   ),
+                  // ),
+                  // BoxShadow(
+                  //   color: Colors.black.withOpacity(0.3),
+                  //   blurRadius: 7,
+                  //   offset: Offset(-10, -15), // Top and left
+                  // ),
+                  // // White shadow on bottom-right
+                  // BoxShadow(
+                  //   color: Colors.white.withOpacity(0.7),
+                  //   blurRadius: 7,
+                  //   offset: Offset(10, 10), // Bottom and right
+                  // ),
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.3),
+                    blurRadius: 4,
+                    offset: Offset(-10, -12), // Top and left
+                  ),
+                  // White shadow on bottom-right
+                  BoxShadow(
+                    color: Colors.white.withOpacity(0.7),
+                    blurRadius: 7,
+                    offset: Offset(10, 10), // Bottom and right
+                  ),
+                ],
+              ),
+              child: TextFormField(
+                controller: controller,
+                obscureText: true,
+                style: const TextStyle(color: Colors.black87),
+                decoration: InputDecoration(
+                  hintText: hint,
+                  hintStyle: TextStyle(color: Colors.black45.withOpacity(0.6)),
+                  filled: true,
+                  fillColor: Colors.transparent,
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                  border: InputBorder.none,
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter $label';
+                  }
+
+                  return null;
+                },
+              ),
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
 }
