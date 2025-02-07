@@ -176,7 +176,7 @@ class _LoginFormState extends State<_LoginForm> {
               _buildTextField(
                   'Enroll ID', EnrollId_controller, 'Enter Your Enroll Id'),
               _buildPasswordField(
-                  'Password', Password_controller, 'Enter Your Password'),
+                  'Password', Password_controller, 'Enter Your Password')
             ],
           ),
         ),
@@ -186,17 +186,17 @@ class _LoginFormState extends State<_LoginForm> {
         ElevatedButton(
           onPressed: () {
             if (_FormKey.currentState!.validate()) {
-             Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (_) => Navigation(initialScreen: const DashboardScreen()), // Pass initialScreen
-              ),
-            
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => Navigation(
+                      initialScreen:
+                          const DashboardScreen()), // Pass initialScreen
+                ),
               );
             } else {
               print("enter all fields");
             }
-           
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFF97C8D6),
@@ -252,32 +252,6 @@ class _LoginFormState extends State<_LoginForm> {
   }
 }
 
-// class _CustomTextField extends StatelessWidget {
-//   final String hintText;
-//   final bool isPassword;
-
-//   const _CustomTextField({
-//     required this.hintText,
-//     this.isPassword = false,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return TextField(
-//       obscureText: isPassword,
-//       decoration: InputDecoration(
-//         hintText: hintText,
-//         filled: true,
-//         fillColor: const Color(0xFFE0E5EC),
-//         contentPadding:
-//             const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-//         border: OutlineInputBorder(
-//           borderRadius: BorderRadius.circular(12),
-//           borderSide: BorderSide.none,
-//         ),
-//       ),
-//     );
-//   }
 // }
 
 class ForgetPasswordPage extends StatelessWidget {
@@ -294,6 +268,80 @@ class ForgetPasswordPage extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget _buildPasswordField(
+    String label, TextEditingController controller, String hint) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 8.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+              fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black87),
+        ),
+        const SizedBox(height: 8),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(15),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(
+                sigmaX: 10, sigmaY: 10), // Frosted glass effect
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border(bottom: BorderSide(color: Colors.grey)),
+                color:
+                    const Color.fromARGB(255, 189, 189, 189).withOpacity(0.1),
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.3),
+                    blurRadius: 4,
+                    offset: Offset(-10, -12), // Top and left
+                  ),
+                  // White shadow on bottom-right
+                  BoxShadow(
+                    color: Colors.white.withOpacity(0.7),
+                    blurRadius: 7,
+                    offset: Offset(10, 10), // Bottom and right
+                  ),
+                ],
+              ),
+              child: TextFormField(
+                  controller: controller,
+                  obscureText: true,
+                  style: const TextStyle(color: Colors.black87),
+                  decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        
+                      },
+                      icon: Icon(
+                        Icons.remove_red_eye,
+                        color: Color.fromRGBO(229, 61, 109, 1),
+                      ),
+                    ),
+                    hintText: hint,
+                    hintStyle:
+                        TextStyle(color: Colors.black45.withOpacity(0.6)),
+                    filled: true,
+                    fillColor: Colors.transparent,
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 14),
+                    border: InputBorder.none,
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter $label';
+                    }
+                  }),
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
 }
 
 Widget _buildTextField(
@@ -361,97 +409,6 @@ Widget _buildTextField(
                   if (value == null || value.isEmpty) {
                     return 'Please enter $label';
                   }
-                  return null;
-                },
-              ),
-            ),
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-Widget _buildPasswordField(
-    String label, TextEditingController controller, String hint) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 8.0),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: const TextStyle(
-              fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black87),
-        ),
-        const SizedBox(height: 8),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(15),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(
-                sigmaX: 10, sigmaY: 10), // Frosted glass effect
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border(bottom: BorderSide(color: Colors.grey)),
-                color:
-                    const Color.fromARGB(255, 189, 189, 189).withOpacity(0.1),
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: [
-                  // BoxShadow(
-                  //   color: Colors.black.withOpacity(0.5),
-                  //   blurRadius: 90,
-                  //   offset: Offset(-20, -20),
-                  // ),
-                  // BoxShadow(
-                  //   color: Colors.white,
-                  //   blurRadius: 13,
-                  //   offset: Offset(
-                  //     5,
-                  //     5,
-                  //   ),
-                  // ),
-                  // BoxShadow(
-                  //   color: Colors.black.withOpacity(0.3),
-                  //   blurRadius: 7,
-                  //   offset: Offset(-10, -15), // Top and left
-                  // ),
-                  // // White shadow on bottom-right
-                  // BoxShadow(
-                  //   color: Colors.white.withOpacity(0.7),
-                  //   blurRadius: 7,
-                  //   offset: Offset(10, 10), // Bottom and right
-                  // ),
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.3),
-                    blurRadius: 4,
-                    offset: Offset(-10, -12), // Top and left
-                  ),
-                  // White shadow on bottom-right
-                  BoxShadow(
-                    color: Colors.white.withOpacity(0.7),
-                    blurRadius: 7,
-                    offset: Offset(10, 10), // Bottom and right
-                  ),
-                ],
-              ),
-              child: TextFormField(
-                controller: controller,
-                obscureText: true,
-                style: const TextStyle(color: Colors.black87),
-                decoration: InputDecoration(
-                  hintText: hint,
-                  hintStyle: TextStyle(color: Colors.black45.withOpacity(0.6)),
-                  filled: true,
-                  fillColor: Colors.transparent,
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                  border: InputBorder.none,
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter $label';
-                  }
-
                   return null;
                 },
               ),

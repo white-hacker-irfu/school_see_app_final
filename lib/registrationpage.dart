@@ -1,4 +1,5 @@
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -27,6 +28,7 @@ class RegistrationPage extends StatefulWidget {
   _RegistrationPageState createState() => _RegistrationPageState();
 }
 
+bool _obscureText = true;
 const primaryColor = Color(0xFFE0E0E0);
 
 class _RegistrationPageState extends State<RegistrationPage> {
@@ -174,17 +176,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       const Color.fromARGB(255, 189, 189, 189).withOpacity(0.1),
                   borderRadius: BorderRadius.circular(15),
                   boxShadow: [
-                    // BoxShadow(
-                    //   color: Colors.black.withOpacity(0.3),
-                    //   blurRadius: 7,
-                    //   offset: Offset(-10, -15), // Top and left
-                    // ),
-                    // // White shadow on bottom-right
-                    // BoxShadow(
-                    //   color: Colors.white.withOpacity(0.7),
-                    //   blurRadius: 7,
-                    //   offset: Offset(10, 10), // Bottom and right
-                    // ),
                     BoxShadow(
                       color: Colors.black.withOpacity(0.3),
                       blurRadius: 4,
@@ -253,30 +244,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       const Color.fromARGB(255, 189, 189, 189).withOpacity(0.1),
                   borderRadius: BorderRadius.circular(15),
                   boxShadow: [
-                    // BoxShadow(
-                    //   color: Colors.black.withOpacity(0.5),
-                    //   blurRadius: 90,
-                    //   offset: Offset(-20, -20),
-                    // ),
-                    // BoxShadow(
-                    //   color: Colors.white,
-                    //   blurRadius: 13,
-                    //   offset: Offset(
-                    //     5,
-                    //     5,
-                    //   ),
-                    // ),
-                    // BoxShadow(
-                    //   color: Colors.black.withOpacity(0.3),
-                    //   blurRadius: 7,
-                    //   offset: Offset(-10, -15), // Top and left
-                    // ),
-                    // // White shadow on bottom-right
-                    // BoxShadow(
-                    //   color: Colors.white.withOpacity(0.7),
-                    //   blurRadius: 7,
-                    //   offset: Offset(10, 10), // Bottom and right
-                    // ),
                     BoxShadow(
                       color: Colors.black.withOpacity(0.3),
                       blurRadius: 4,
@@ -292,9 +259,21 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 ),
                 child: TextFormField(
                   controller: controller,
-                  obscureText: true,
+                  obscureText: _obscureText,
                   style: const TextStyle(color: Colors.black87),
                   decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _obscureText = !_obscureText;
+                          });
+                        },
+                        icon: Icon(
+                          _obscureText
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                          color: Color.fromRGBO(229, 61, 109, 1),
+                        )),
                     hintText: hint,
                     hintStyle:
                         TextStyle(color: Colors.black45.withOpacity(0.6)),
