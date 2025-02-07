@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'registrationpage.dart';
-import 'forgetpassword.dart';
+import 'reset-password.dart';
 import 'navigation.dart';
 import 'dashboard_screen.dart';
 
@@ -214,7 +214,7 @@ class _LoginFormState extends State<_LoginForm> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const ForgotPasswordPage(),
+                    builder: (context) => const ResetPasswordApp(),
                   ),
                 );
               },

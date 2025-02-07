@@ -6,6 +6,7 @@ import 'digitalclasses.dart';
 import 'fee_status.dart';
 import 'busTrackingScreen.dart';
 import 'resul_tpage.dart';
+import 'studentdetails_page.dart';
 
 class Navigation extends StatefulWidget {
   final Widget initialScreen;
@@ -23,8 +24,8 @@ class _NavigationState extends State<Navigation> {
     const Placeholder(),
     const Placeholder(),
     const DashboardScreen(),
-    const Placeholder(),
-    const Placeholder(),
+    const BusTrackingScreen(),
+    const StudentdetailsPage(),
   ];
 
   late Widget _currentScreen;
