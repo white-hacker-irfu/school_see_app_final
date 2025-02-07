@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -26,17 +27,22 @@ class RegistrationPage extends StatefulWidget {
   _RegistrationPageState createState() => _RegistrationPageState();
 }
 
+const primaryColor = Color(0xFFE0E0E0);
+
 class _RegistrationPageState extends State<RegistrationPage> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _studentFirstNameController = TextEditingController();
-  final TextEditingController _studentLastNameController = TextEditingController();
+  final TextEditingController _studentFirstNameController =
+      TextEditingController();
+  final TextEditingController _studentLastNameController =
+      TextEditingController();
   final TextEditingController _classController = TextEditingController();
   final TextEditingController _dobController = TextEditingController();
   final TextEditingController _fatherNameController = TextEditingController();
   final TextEditingController _motherNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -87,21 +93,30 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  _buildTextField('Student First Name', _studentFirstNameController, 'Enter your first name'),
-                  _buildTextField('Student Last Name', _studentLastNameController, 'Enter your last name'),
+                  _buildTextField('Student First Name',
+                      _studentFirstNameController, 'Enter your first name'),
+                  _buildTextField('Student Last Name',
+                      _studentLastNameController, 'Enter your last name'),
                   _buildTextField('Class', _classController, 'Enter class'),
-                  _buildTextField('Date of Birth', _dobController, ' (DD/MM/YYYY)'),
-                  _buildTextField('Father Name', _fatherNameController, ' Father name'),
-                  _buildTextField('Mother Name', _motherNameController, ' Mother name'),
-                  _buildTextField('Email ID', _emailController, 'Enter your email'),
-                  _buildPasswordField('Password', _passwordController, 'Enter a secure password'),
-                  _buildPasswordField('Confirm Password', _confirmPasswordController, 'Re-enter your password'),
+                  _buildTextField(
+                      'Date of Birth', _dobController, ' (DD/MM/YYYY)'),
+                  _buildTextField(
+                      'Father Name', _fatherNameController, ' Father name'),
+                  _buildTextField(
+                      'Mother Name', _motherNameController, ' Mother name'),
+                  _buildTextField(
+                      'Email ID', _emailController, 'Enter your email'),
+                  _buildPasswordField('Password', _passwordController,
+                      'Enter a secure password'),
+                  _buildPasswordField('Confirm Password',
+                      _confirmPasswordController, 'Re-enter your password'),
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Registration Successful')),
+                          const SnackBar(
+                              content: Text('Registration Successful')),
                         );
                       }
                     },
@@ -131,7 +146,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
     );
   }
 
-  Widget _buildTextField(String label, TextEditingController controller, String hint) {
+//Styling added textfields
+  Widget _buildTextField(
+      String label, TextEditingController controller, String hint) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Column(
@@ -139,34 +156,78 @@ class _RegistrationPageState extends State<RegistrationPage> {
         children: [
           Text(
             label,
-            style: const TextStyle(fontSize: 16, color: Colors.black87),
+            style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Colors.black87),
           ),
           const SizedBox(height: 8),
-          TextFormField(
-            controller: controller,
-            decoration: InputDecoration(
-              hintText: hint,
-              filled: true,
-              fillColor: const Color(0xFFE0E5EC),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide.none,
+          ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(
+                  sigmaX: 10, sigmaY: 10), // Frosted glass effect
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border(bottom: BorderSide(color: Colors.grey)),
+                  color:
+                      const Color.fromARGB(255, 189, 189, 189).withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    // BoxShadow(
+                    //   color: Colors.black.withOpacity(0.3),
+                    //   blurRadius: 7,
+                    //   offset: Offset(-10, -15), // Top and left
+                    // ),
+                    // // White shadow on bottom-right
+                    // BoxShadow(
+                    //   color: Colors.white.withOpacity(0.7),
+                    //   blurRadius: 7,
+                    //   offset: Offset(10, 10), // Bottom and right
+                    // ),
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.3),
+                      blurRadius: 4,
+                      offset: Offset(-10, -12), // Top and left
+                    ),
+                    // White shadow on bottom-right
+                    BoxShadow(
+                      color: Colors.white.withOpacity(0.7),
+                      blurRadius: 7,
+                      offset: Offset(10, 10), // Bottom and right
+                    ),
+                  ],
+                ),
+                child: TextFormField(
+                  controller: controller,
+                  style: const TextStyle(color: Colors.black87),
+                  decoration: InputDecoration(
+                    hintText: hint,
+                    hintStyle:
+                        TextStyle(color: Colors.black45.withOpacity(0.6)),
+                    filled: true,
+                    fillColor: Colors.transparent,
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 14),
+                    border: InputBorder.none,
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter $label';
+                    }
+                    return null;
+                  },
+                ),
               ),
             ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter $label';
-              }
-              return null;
-            },
           ),
         ],
       ),
     );
   }
 
-  Widget _buildPasswordField(String label, TextEditingController controller, String hint) {
+  Widget _buildPasswordField(
+      String label, TextEditingController controller, String hint) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Column(
@@ -174,31 +235,88 @@ class _RegistrationPageState extends State<RegistrationPage> {
         children: [
           Text(
             label,
-            style: const TextStyle(fontSize: 16, color: Colors.black87),
+            style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Colors.black87),
           ),
           const SizedBox(height: 8),
-          TextFormField(
-            controller: controller,
-            obscureText: true,
-            decoration: InputDecoration(
-              hintText: hint,
-              filled: true,
-              fillColor: const Color(0xFFE0E5EC),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide.none,
+          ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(
+                  sigmaX: 10, sigmaY: 10), // Frosted glass effect
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border(bottom: BorderSide(color: Colors.grey)),
+                  color:
+                      const Color.fromARGB(255, 189, 189, 189).withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    // BoxShadow(
+                    //   color: Colors.black.withOpacity(0.5),
+                    //   blurRadius: 90,
+                    //   offset: Offset(-20, -20),
+                    // ),
+                    // BoxShadow(
+                    //   color: Colors.white,
+                    //   blurRadius: 13,
+                    //   offset: Offset(
+                    //     5,
+                    //     5,
+                    //   ),
+                    // ),
+                    // BoxShadow(
+                    //   color: Colors.black.withOpacity(0.3),
+                    //   blurRadius: 7,
+                    //   offset: Offset(-10, -15), // Top and left
+                    // ),
+                    // // White shadow on bottom-right
+                    // BoxShadow(
+                    //   color: Colors.white.withOpacity(0.7),
+                    //   blurRadius: 7,
+                    //   offset: Offset(10, 10), // Bottom and right
+                    // ),
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.3),
+                      blurRadius: 4,
+                      offset: Offset(-10, -12), // Top and left
+                    ),
+                    // White shadow on bottom-right
+                    BoxShadow(
+                      color: Colors.white.withOpacity(0.7),
+                      blurRadius: 7,
+                      offset: Offset(10, 10), // Bottom and right
+                    ),
+                  ],
+                ),
+                child: TextFormField(
+                  controller: controller,
+                  obscureText: true,
+                  style: const TextStyle(color: Colors.black87),
+                  decoration: InputDecoration(
+                    hintText: hint,
+                    hintStyle:
+                        TextStyle(color: Colors.black45.withOpacity(0.6)),
+                    filled: true,
+                    fillColor: Colors.transparent,
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 14),
+                    border: InputBorder.none,
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter $label';
+                    }
+                    if (label == 'Confirm Password' &&
+                        value != _passwordController.text) {
+                      return 'Passwords do not match';
+                    }
+                    return null;
+                  },
+                ),
               ),
             ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter $label';
-              }
-              if (label == 'Confirm Password' && value != _passwordController.text) {
-                return 'Passwords do not match';
-              }
-              return null;
-            },
           ),
         ],
       ),

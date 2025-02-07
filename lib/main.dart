@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:school_see/dashboard_screen.dart';
 import 'registrationpage.dart';
-import 'forgetpassword.dart';
+import 'reset-password.dart';
 import 'navigation.dart';
 import 'dart:ui';
 
@@ -185,13 +186,17 @@ class _LoginFormState extends State<_LoginForm> {
         ElevatedButton(
           onPressed: () {
             if (_FormKey.currentState!.validate()) {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (_) => const Navigation()),
+             Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (_) => Navigation(initialScreen: const DashboardScreen()), // Pass initialScreen
+              ),
+            
               );
             } else {
               print("enter all fields");
             }
+           
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFF97C8D6),
@@ -207,6 +212,7 @@ class _LoginFormState extends State<_LoginForm> {
             ),
           ),
         ),
+
         const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -230,7 +236,7 @@ class _LoginFormState extends State<_LoginForm> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const ForgotPasswordPage(),
+                    builder: (context) => const ResetPasswordApp(),
                   ),
                 );
               },

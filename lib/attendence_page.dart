@@ -157,23 +157,7 @@ class _AttendanceDashboardState extends State<AttendanceDashboard> {
           ),
         ),
       ),
-      bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.transparent, // Background behind the navigation bar
-        color: Colors.blueGrey, // Color of the navigation bar
-        items: const [
-          Icon(Icons.assignment, size: 30, color: Colors.white), // Assignment icon
-          Icon(Icons.notifications, size: 30, color: Colors.white), // Notifications icon
-          Icon(Icons.home, size: 30, color: Colors.white), // Home icon
-          Icon(Icons.directions_bus, size: 30, color: Colors.white), // Directions icon
-          Icon(Icons.person, size: 30, color: Colors.white), // Profile icon
-        ],
-        index: _selectedIndex, // Set the initial active index
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index; // Update the selected index when an icon is tapped
-          });
-        },
-      ),
+
     );
   }
 
