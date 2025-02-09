@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart'; // For indicator
 import 'attendence_page.dart';
 import 'digitalclasses.dart';
 import 'fee_status.dart';
@@ -8,38 +9,27 @@ import 'busTrackingScreen.dart';
 import 'navigation.dart';
 import 'qa-game.dart';
 
-void main() {
-  runApp(const MyApp());
+class DashboardScreen extends StatefulWidget {
+  const DashboardScreen({Key? key}) : super(key: key); // Added Key? key
+
+  @override
+  _DashboardScreenState createState() => _DashboardScreenState();
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class _DashboardScreenState extends State<DashboardScreen> {
+  final CarouselController _carouselController = CarouselController();
+  int _currentIndex = 0;
+
+  final List<String> carouselImages = [
+    'assets/images/school.png',
+    'assets/images/school1.png',
+    'assets/images/sports.png',
+    'assets/images/school.png',
+    'assets/images/school1.png',
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Dashboard Screen',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const DashboardScreen(),
-    );
-  }
-}
-
-class DashboardScreen extends StatelessWidget {
-  const DashboardScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    // Image constants
-    const String schoolImage = 'assets/images/school.png';
-    const String school1Image = 'assets/images/school1.png';
-    const String sportsImage = 'assets/images/sports.png';
-
-    // Carousel image list
-    final List<String> carouselImages = [schoolImage, school1Image, sportsImage];
-
     return Scaffold(
       backgroundColor: const Color(0xFFF5F7FB),
       body: SafeArea(
@@ -56,16 +46,16 @@ class DashboardScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'School See!',
+                        'School See Teacher App!',
                         style: TextStyle(
-                          fontSize: 24,
+                          fontSize: 22,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ),
                       ),
                       SizedBox(height: 4),
                       Text(
-                        'Where the students store their data',
+                        'Where teachers update data',
                         style: TextStyle(color: Colors.grey, fontSize: 14),
                       ),
                     ],
@@ -76,18 +66,11 @@ class DashboardScreen extends StatelessWidget {
                   ),
                 ],
               ),
+
               const SizedBox(height: 20),
+
               // Carousel Slider
               CarouselSlider(
-                options: CarouselOptions(
-                  height: 150.0,
-                  autoPlay: true,
-                  autoPlayInterval: const Duration(seconds: 2),
-                  autoPlayAnimationDuration: const Duration(milliseconds: 800),
-                  autoPlayCurve: Curves.fastOutSlowIn,
-                  enlargeCenterPage: true,
-                  viewportFraction: 0.9,
-                ),
                 items: carouselImages.map((imageUrl) {
                   return Builder(
                     builder: (BuildContext context) {
@@ -105,18 +88,49 @@ class DashboardScreen extends StatelessWidget {
                     },
                   );
                 }).toList(),
+                options: CarouselOptions(
+                  height: 150.0,
+                  autoPlay: true,
+                  autoPlayInterval: const Duration(seconds: 2),
+                  autoPlayAnimationDuration: const Duration(milliseconds: 800),
+                  autoPlayCurve: Curves.fastOutSlowIn,
+                  enlargeCenterPage: false,
+                  viewportFraction: 1.0,
+                  onPageChanged: (index, reason) {
+                    setState(() {
+                      _currentIndex = index;
+                    });
+                  },
+                ),
               ),
+
+              const SizedBox(height: 10),
+
+              // Smooth Page Indicator
+              Center(
+                child: AnimatedSmoothIndicator(
+                  activeIndex: _currentIndex,
+                  count: carouselImages.length,
+                  effect: const ExpandingDotsEffect(
+                    dotHeight: 8,
+                    dotWidth: 8,
+                    activeDotColor: Colors.blueGrey,
+                  ),
+                ),
+              ),
+
               const SizedBox(height: 20),
+
               // Dashboard Items
               Expanded(
                 child: GridView.count(
                   crossAxisCount: 3,
                   crossAxisSpacing: 16,
                   mainAxisSpacing: 16,
-                  childAspectRatio: 0.8,
+                  childAspectRatio: 0.9,
                   children: [
                     _DashboardCard(
-                      title: 'Student Attendance',
+                      title: 'Update Student Attendance',
                       icon: Icons.person_rounded,
                       onTap: () {
                         Navigator.push(
@@ -128,7 +142,7 @@ class DashboardScreen extends StatelessWidget {
                       },
                     ),
                     _DashboardCard(
-                      title: 'Digital Classes',
+                      title: 'Upload Digital Classes',
                       icon: Icons.cast_for_education,
                       onTap: () {
                         Navigator.push(
@@ -140,31 +154,7 @@ class DashboardScreen extends StatelessWidget {
                       },
                     ),
                     _DashboardCard(
-                      title: 'Fee Status',
-                      icon: Icons.payment,
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Navigation(initialScreen: FeeStatusPage()),
-                          ),
-                        );
-                      },
-                    ),
-                    _DashboardCard(
-                      title: 'Bus Tracking',
-                      icon: Icons.directions_bus,
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Navigation(initialScreen: BusTrackingScreen()),
-                          ),
-                        );
-                      },
-                    ),
-                    _DashboardCard(
-                      title: 'School Calendar',
+                      title: 'School \n Calendar',
                       icon: Icons.calendar_month,
                       onTap: () {
                         Navigator.push(
@@ -176,7 +166,7 @@ class DashboardScreen extends StatelessWidget {
                       },
                     ),
                     _DashboardCard(
-                      title: 'Assignments',
+                      title: 'Upload Assignments',
                       icon: Icons.assignment,
                       onTap: () {
                         Navigator.push(
@@ -188,7 +178,7 @@ class DashboardScreen extends StatelessWidget {
                       },
                     ),
                     _DashboardCard(
-                      title: 'Results',
+                      title: 'Upload Student Marks',
                       icon: Icons.bar_chart,
                       onTap: () {
                         Navigator.push(
@@ -200,13 +190,25 @@ class DashboardScreen extends StatelessWidget {
                       },
                     ),
                     _DashboardCard(
-                      title: 'QA Game',
+                      title: 'Raise Questions For QA Game',
                       icon: Icons.videogame_asset,
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => Navigation(initialScreen: QAExamScreen()),
+                          ),
+                        );
+                      },
+                    ),
+                    _DashboardCard(
+                      title: 'Time Table',
+                      icon: Icons.access_time_filled,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Navigation(initialScreen: const PlaceholderScreen(title: 'Time Table')),
                           ),
                         );
                       },
@@ -228,10 +230,11 @@ class _DashboardCard extends StatelessWidget {
   final VoidCallback onTap;
 
   const _DashboardCard({
+    Key? key, // Added Key? key
     required this.title,
     required this.icon,
     required this.onTap,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -273,7 +276,7 @@ class _DashboardCard extends StatelessWidget {
 class PlaceholderScreen extends StatelessWidget {
   final String title;
 
-  const PlaceholderScreen({required this.title, super.key});
+  const PlaceholderScreen({Key? key, required this.title}) : super(key: key); // Added Key? key
 
   @override
   Widget build(BuildContext context) {
@@ -283,4 +286,3 @@ class PlaceholderScreen extends StatelessWidget {
     );
   }
 }
-

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:school_see/dashboard_screen.dart';
+import 'package:school_see_teacher/dashboard_screen.dart';
 import 'registrationpage.dart';
 import 'reset-password.dart';
 import 'navigation.dart';
@@ -15,7 +15,7 @@ class SchoolSeeApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'School See - Parent Login',
+      title: 'School See - Teacher Login',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: Colors.blueGrey,
@@ -91,7 +91,7 @@ class AdminLoginPage extends StatelessWidget {
                   children: [
                     // Login Title
                     const Text(
-                      'Parent Login',
+                      'Teacher Login',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 24,

@@ -1,12 +1,13 @@
+// navigation.dart
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'dashboard_screen.dart';
-import 'attendence_page.dart';
 import 'digitalclasses.dart';
 import 'fee_status.dart';
 import 'busTrackingScreen.dart';
 import 'resul_tpage.dart';
 import 'studentdetails_page.dart';
+import 'notifications.dart'; // Import the NotificationsPage
 
 class Navigation extends StatefulWidget {
   final Widget initialScreen;
@@ -14,52 +15,52 @@ class Navigation extends StatefulWidget {
   const Navigation({super.key, required this.initialScreen});
 
   @override
-  _NavigationState createState() => _NavigationState();
+  NavigationState createState() => NavigationState();
 }
 
-class _NavigationState extends State<Navigation> {
-  int _selectedIndex = 2;
+class NavigationState extends State<Navigation> {
+  int selectedIndex = 2; // Changed here
 
-  final List<Widget> _screens = [
+  final List<Widget> screens = [ // Changed here
     const Placeholder(),
-    const Placeholder(),
+    NotificationsPage(),
     const DashboardScreen(),
     const BusTrackingScreen(),
     const StudentdetailsPage(),
   ];
 
-  late Widget _currentScreen;
+  late Widget currentScreen; // Changed here
 
   @override
   void initState() {
     super.initState();
-    _currentScreen = widget.initialScreen;
+    currentScreen = widget.initialScreen; // Changed here
   }
 
-  Color _getNavBarBackgroundColor() {
-    if (_currentScreen is DashboardScreen) {
-      return Color(0xFFF5F7FB);
-    } else if (_currentScreen is AttendencePage) {
-      return Colors.blue;
-    } else if (_currentScreen is EducationPage) {
-      return Color(0xFFF5F7FB);
-    } else if (_currentScreen is FeeStatusPage) {
+  Color getNavBarBackgroundColor() { // Changed here
+    if (currentScreen is DashboardScreen) { // Changed here
+      return const Color(0xFFF5F7FB);
+    } else if (currentScreen is EducationPage) { // Changed here
+      return const Color(0xFFF5F7FB);
+    } else if (currentScreen is FeeStatusPage) { // Changed here
       return Colors.white;
-    } else if (_currentScreen is BusTrackingScreen) {
+    } else if (currentScreen is BusTrackingScreen) { // Changed here
       return Colors.deepPurple;
-    } else if (_currentScreen is ResultsPage) {
+    } else if (currentScreen is ResultsPage) { // Changed here
       return Colors.white;
+    } else if (currentScreen is NotificationsPage) { // Changed here
+      return const Color(0xFF00C853);
     } else {
-      return Color(0xFFF5F7FB);
+      return const Color(0xFFF5F7FB);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _currentScreen,
+      body: currentScreen, // Changed here
       bottomNavigationBar: Container(
-        color: _getNavBarBackgroundColor(),
+        color: getNavBarBackgroundColor(), // Changed here
         child: CurvedNavigationBar(
           backgroundColor: Colors.transparent,
           color: Colors.blueGrey,
@@ -70,11 +71,11 @@ class _NavigationState extends State<Navigation> {
             Icon(Icons.directions_bus, size: 30, color: Colors.white),
             Icon(Icons.person, size: 30, color: Colors.white),
           ],
-          index: _selectedIndex,
+          index: selectedIndex, // Changed here
           onTap: (index) {
             setState(() {
-              _selectedIndex = index;
-              _currentScreen = _screens[index];
+              selectedIndex = index; // Changed here
+              currentScreen = screens[index]; // Changed here
             });
           },
         ),

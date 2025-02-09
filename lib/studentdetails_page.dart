@@ -10,7 +10,7 @@ class StudentdetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Student Profile',
+      title: 'Teacher Profile',
       theme: ThemeData.light(), // Default light theme
       darkTheme: ThemeData.dark(), // Dark theme
       themeMode: ThemeMode.system, // Follows system theme
@@ -39,7 +39,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Student Profile'),
+        title: Text('Teacher Profile'),
         actions: [
           Switch(
             value: _isDarkMode,

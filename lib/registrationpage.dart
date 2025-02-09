@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Parent Registration',
+      title: 'Teacher Registration',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -95,17 +95,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  _buildTextField('Student First Name',
+                  _buildTextField('Teacher First Name',
                       _studentFirstNameController, 'Enter your first name'),
-                  _buildTextField('Student Last Name',
+                  _buildTextField('Teacher Last Name',
                       _studentLastNameController, 'Enter your last name'),
                   _buildTextField('Class', _classController, 'Enter class'),
-                  _buildTextField(
-                      'Date of Birth', _dobController, ' (DD/MM/YYYY)'),
-                  _buildTextField(
-                      'Father Name', _fatherNameController, ' Father name'),
-                  _buildTextField(
-                      'Mother Name', _motherNameController, ' Mother name'),
+                  _buildTextField('Subject', _classController, 'Enter subject'),
                   _buildTextField(
                       'Email ID', _emailController, 'Enter your email'),
                   _buildPasswordField('Password', _passwordController,

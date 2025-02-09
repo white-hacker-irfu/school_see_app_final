@@ -94,8 +94,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     _buildPasswordField('Confirm Password',
                         confirmPasswordController, 'Re-Enter Password'),
                     const SizedBox(height: 2),
-                    _buildTextField('Parent Number ', parentNumberController,
-                        'Enter Parent Number '),
+                    _buildTextField('Phone Number ', parentNumberController,
+                        'Enter Phone Number '),
                     const SizedBox(height: 10),
                     Align(
                       alignment: Alignment.centerRight,
