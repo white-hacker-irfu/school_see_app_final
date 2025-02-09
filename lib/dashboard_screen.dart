@@ -8,6 +8,7 @@ import 'resul_tpage.dart';
 import 'busTrackingScreen.dart';
 import 'navigation.dart';
 import 'qa-game.dart';
+import 'ClassSelectionScreen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key); // Added Key? key
@@ -171,9 +172,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => Navigation(initialScreen: const PlaceholderScreen(title: 'Assignments')),
-                          ),
+                          MaterialPageRoute(builder: (context) => ClassSelectionScreen()),
                         );
                       },
                     ),
