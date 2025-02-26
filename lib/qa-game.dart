@@ -81,8 +81,8 @@ class _InvertedLibraryState extends State<InvertedLibrary> {
                   Expanded(
                     child: TextField(
                       controller: questionController,
-                      maxLines: null, // Allows dynamic height expansion
-                      expands: true, // Ensures it fills available space
+                      maxLines: null, 
+                      expands: true, 
                       keyboardType: TextInputType.multiline,
                       textAlignVertical: TextAlignVertical.top,
                       decoration: InputDecoration(

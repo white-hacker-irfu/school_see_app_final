@@ -139,7 +139,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => Navigation(
-                                initialScreen: const AttendencePage()),
+                                initialScreen:  AttendancePage()),
                           ),
                         );
                       },

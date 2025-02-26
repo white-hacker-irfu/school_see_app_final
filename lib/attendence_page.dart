@@ -1,278 +1,247 @@
+// import 'package:flutter/material.dart';
+
+// class AttendancePage extends StatefulWidget {
+//   @override
+//   _AttendancePageState createState() => _AttendancePageState();
+// }
+
+// class _AttendancePageState extends State<AttendancePage> {
+//   // List of students with roll numbers and names
+//   final List<Map<String, dynamic>> students = List.generate(
+//     60,
+//     (index) => {
+//       "rollNumber": index + 1,
+//       "name": "Student ${index + 1}",
+//       "status": "Not Marked" // Default status
+//     },
+//   );
+
+//   // Function to update attendance status
+//   void _markAttendance(int index, String status) {
+//     setState(() {
+//       students[index]["status"] = status;
+//     });
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text("Attendance"),
+//         backgroundColor: Colors.blueGrey,
+//       ),
+//       body: Padding(
+//         padding: const EdgeInsets.all(10.0),
+//         child: Column(
+//           children: [
+//             Expanded(
+//               //  Add Expanded to fix the ListView inside Column
+//               child: ListView.builder(
+//                 itemCount: students.length,
+//                 itemBuilder: (context, index) {
+//                   final student = students[index];
+//                   return Card(
+//                     elevation: 4,
+//                     margin:
+//                         const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+//                     shape: RoundedRectangleBorder(
+//                       borderRadius: BorderRadius.circular(12),
+//                     ),
+//                     child: ListTile(
+//                       contentPadding: const EdgeInsets.all(10),
+//                       title: Text(
+//                         "Roll No: ${student["rollNumber"]} - ${student["name"]}",
+//                         style: const TextStyle(fontWeight: FontWeight.bold),
+//                       ),
+//                       subtitle: Text(
+//                         "Status: ${student["status"]}",
+//                         style: TextStyle(
+//                           color: student["status"] == "Present"
+//                               ? Colors.green
+//                               : student["status"] == "Absent"
+//                                   ? Colors.red
+//                                   : Colors.grey,
+//                           fontWeight: FontWeight.w500,
+//                         ),
+//                       ),
+//                       trailing: Row(
+//                         mainAxisSize: MainAxisSize.min,
+//                         children: [
+//                           // Present Button
+//                           ElevatedButton(
+//                             onPressed: () => _markAttendance(index, "Present"),
+//                             style: ElevatedButton.styleFrom(
+//                               backgroundColor: Colors.green.shade400,
+//                               shape: RoundedRectangleBorder(
+//                                 borderRadius: BorderRadius.circular(8),
+//                               ),
+//                             ),
+//                             child: const Text("Present"),
+//                           ),
+//                           const SizedBox(width: 10),
+//                           // Absent Button
+//                           ElevatedButton(
+//                             onPressed: () => _markAttendance(index, "Absent"),
+//                             style: ElevatedButton.styleFrom(
+//                               backgroundColor: Colors.red.shade400,
+//                               shape: RoundedRectangleBorder(
+//                                 borderRadius: BorderRadius.circular(8),
+//                               ),
+//                             ),
+//                             child: const Text("Absent"),
+//                           ),
+//                         ],
+//                       ),
+//                     ),
+//                   );
+//                 },
+//               ),
+//             ),
+//             const SizedBox(height: 10), // Add some space above the button
+//             ElevatedButton(
+//               onPressed: () {
+//                 print("Attendance submitted!");
+//               },
+//               style: ElevatedButton.styleFrom(
+//                 backgroundColor: Colors.lightBlue,
+//                 padding:
+//                     const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+//                 shape: RoundedRectangleBorder(
+//                   borderRadius: BorderRadius.circular(8),
+//                 ),
+//               ),
+//               child: const Text(
+//                 "Submit",
+//                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+
 import 'package:flutter/material.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'studentdetails_page.dart';
-void main() {
-  runApp(const AttendencePage());
-}
-class AttendencePage extends StatelessWidget {
-  const AttendencePage({super.key});
 
+class AttendancePage extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Attendance Dashboard',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: const AttendanceDashboard(),
-    );
+  _AttendancePageState createState() => _AttendancePageState();
+}
+
+class _AttendancePageState extends State<AttendancePage> {
+  // List of students with roll numbers and names
+  final List<Map<String, dynamic>> students = List.generate(
+    60,
+    (index) => {
+      "rollNumber": index + 1,
+      "name": "Student ${index + 1}",
+      "status": "Not Marked" // Default status
+    },
+  );
+
+  // Function to update attendance status
+  void _markAttendance(int index, String status) {
+    setState(() {
+      students[index]["status"] = status;
+    });
   }
-}
-
-class AttendanceDashboard extends StatefulWidget {
-  const AttendanceDashboard({super.key});
-
-  @override
-  _AttendanceDashboardState createState() => _AttendanceDashboardState();
-}
-
-class _AttendanceDashboardState extends State<AttendanceDashboard> {
-  int _selectedIndex = 2; // Set the initial active index for the navigation bar
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 242, 178, 30),
       appBar: AppBar(
-        title: const Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            "𝓼𝓽𝓾𝓭𝓮𝓷𝓽",
-            style: TextStyle(fontSize: 18),
-          ),
-        ),
-        backgroundColor: const Color.fromARGB(255, 242, 178, 30),
-        elevation: 0,
-        actions: [
-          // Notifications Icon with White Background
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-            ),
-            margin: const EdgeInsets.only(right: 8),
-            child: IconButton(
-              icon: const Icon(Icons.notifications, color: Colors.black),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => StudentdetailsPage()),
-                );
-              },
-            ),
-          ),
-        ],
+        title: const Text("Attendance"),
+        backgroundColor: Colors.blueGrey,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              // Top Card
-              Card(
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Date and Week Info
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Text(
-                                '27',
-                                style: TextStyle(
-                                  fontSize: 40,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.indigo,
-                                ),
-                              ),
-                              Text(
-                                'Wednesday',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black54,
-                                ),
-                              ),
-                              Text(
-                                'August 2019',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.black45,
-                                ),
-                              ),
-                            ],
-                          ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.chevron_right,
-                              size: 32,
-                              color: Colors.black54,
-                            ),
-                          ),
-                        ],
+      body: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: ListView.builder(
+          itemCount: students.length + 1, // +1 for the Submit button
+          itemBuilder: (context, index) {
+            if (index == students.length) {
+              // Last item: Submit button
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: Center(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      print("Attendance submitted!");
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.lightBlue,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 40, vertical: 15),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                      const SizedBox(height: 16),
-                      const Text(
-                        "This week status",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                    ),
+                    child: const Text(
+                      "Submit",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              );
+            }
+
+            final student = students[index];
+            return Card(
+              elevation: 4,
+              margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: ListTile(
+                contentPadding: const EdgeInsets.all(10),
+                title: Text(
+                  "Roll No: ${student["rollNumber"]} - ${student["name"]}",
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                subtitle: Text(
+                  "Status: ${student["status"]}",
+                  style: TextStyle(
+                    color: student["status"] == "Present"
+                        ? Colors.green
+                        : student["status"] == "Absent"
+                            ? Colors.red
+                            : Colors.grey,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Present Button
+                    ElevatedButton(
+                      onPressed: () => _markAttendance(index, "Present"),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green.shade400,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      const SizedBox(height: 8),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          _buildWeekStatus('M', true),
-                          _buildWeekStatus('T', false, isAbsent: true),
-                          _buildWeekStatus('W', true),
-                          _buildWeekStatus('Th', false),
-                          _buildWeekStatus('Fr', false),
-                        ],
+                      child: const Text("Present"),
+                    ),
+                    const SizedBox(width: 10),
+                    // Absent Button
+                    ElevatedButton(
+                      onPressed: () => _markAttendance(index, "Absent"),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red.shade400,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
                       ),
-                    ],
-                  ),
+                      child: const Text("Absent"),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 20),
-              // Bottom Cards with Circular Progress
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _buildCircularCard('83%', 'Attendance', Colors.indigo),
-                  _buildCircularCard('03', 'Leave Taken', Colors.deepPurple),
-                  _buildCircularCard('23', 'Ongoing Days', Colors.blueAccent),
-                ],
-              ),
-            ],
-          ),
+            );
+          },
         ),
-      ),
-
-    );
-  }
-
-  Widget _buildWeekStatus(String day, bool isPresent, {bool isAbsent = false}) {
-    return Column(
-      children: [
-        CircleAvatar(
-          radius: 20,
-          backgroundColor: isPresent
-              ? Colors.indigo
-              : isAbsent
-                  ? Colors.red
-                  : Colors.grey.shade300,
-          child: Icon(
-            isPresent
-                ? Icons.check
-                : isAbsent
-                    ? Icons.close
-                    : Icons.circle,
-            color: Colors.white,
-            size: 20,
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          day,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-            color: isPresent
-                ? Colors.indigo
-                : isAbsent
-                    ? Colors.red
-                    : Colors.black54,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildCircularCard(String value, String label, Color color) {
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Container(
-        width: 100,
-        height: 120,
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Circular Progress Indicator
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                CircularProgressIndicator(
-                  value: 0.83, // Replace with dynamic value
-                  strokeWidth: 8,
-                  backgroundColor: Colors.grey.shade300,
-                  color: color,
-                ),
-                Text(
-                  value,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: color,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Text(
-              label,
-              style: const TextStyle(
-                fontSize: 14,
-                color: Colors.black54,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class NotificationsPage extends StatelessWidget {
-  const NotificationsPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Notifications"),
-      ),
-      body: const Center(
-        child: Text("This is the Notifications Page"),
-      ),
-    );
-  }
-}
-
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Profile"),
-      ),
-      body: const Center(
-        child: Text("This is the Profile Page"),
       ),
     );
   }
