@@ -41,6 +41,7 @@ dependencies:
   latlong2: 0.9.1
   smooth_page_indicator: ^1.1.0 # Use the latest version
   flutter_svg: ^2.0.0
+  shared_preferences: ^2.5.2
 
 
 dev_dependencies:

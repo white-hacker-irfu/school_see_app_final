@@ -6,6 +6,7 @@ import 'navigation.dart';
 import 'dart:ui';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const SchoolSeeApp());
 }
 

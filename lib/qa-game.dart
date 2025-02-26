@@ -1,150 +1,240 @@
 import 'package:flutter/material.dart';
+import 'package:school_see_teacher/qaStatistic.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
-class QAExamScreen extends StatelessWidget {
-  const QAExamScreen({super.key});
+class InvertedLibrary extends StatefulWidget {
+  const InvertedLibrary({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.purple.shade100,
-      body: Column(
-        children: [
-          const SizedBox(height: 40),
-          const Text(
-            "Hello 😊",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+  _InvertedLibraryState createState() => _InvertedLibraryState();
+}
+
+class _InvertedLibraryState extends State<InvertedLibrary> {
+  List<Map<String, String>> tileData = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSavedQuestions();
+  }
+
+  Future<void> _saveQuestions() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String encodedData = jsonEncode(tileData);
+    await prefs.setString('questions', encodedData);
+  }
+
+  Future<void> _loadSavedQuestions() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? savedData = prefs.getString('questions');
+
+    if (savedData != null) {
+      List<dynamic> decodedData = jsonDecode(savedData);
+      setState(() {
+        tileData = decodedData.map((item) {
+          return {
+            "text": item["text"] as String,
+            "subtitle": item["subtitle"] as String,
+          };
+        }).toList();
+      });
+    }
+  }
+
+  void _addNewTile(String question) {
+    setState(() {
+      tileData.add({
+        "text": question,
+        "subtitle": "Tap for more details",
+      });
+    });
+    _saveQuestions();
+  }
+
+  void _showAddQuestionDialog() {
+    TextEditingController questionController = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15), // Rounded corners
           ),
-          const SizedBox(height: 10),
-          const Text(
-            "What do you need to know?",
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 20),
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              border: Border.all(color: Colors.black, width: 2),
-              color: Colors.white,
-            ),
-            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: const [
-                Icon(Icons.camera_alt, size: 24),
-                SizedBox(width: 10),
-                Text("Snap to Solve", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              ],
-            ),
-          ),
-          const SizedBox(height: 30),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
-                ),
-              ),
+          child: SizedBox(
+            width: 600, // Increased width
+            height: 550, // Increased height
+            child: Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade100,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: List.generate(5, (index) {
-                            return Row(
-                              children: [
-                                CircleAvatar(
-                                  radius: 15,
-                                  backgroundColor: index == 0
-                                      ? Colors.green
-                                      : Colors.grey.shade300,
-                                  child: index == 0
-                                      ? const Icon(Icons.check, size: 15, color: Colors.white)
-                                      : Text("${index + 1}", style: const TextStyle(fontSize: 14)),
-                                ),
-                                if (index < 4)
-                                  Container(
-                                    width: 47,
-                                    height: 3,
-                                    color: Colors.grey,
-                                  ),
-                              ],
-                            );
-                          }),
-                        ),
-                        const SizedBox(height: 10),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("Explore Features", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black38)),
-                                Text("Join Now", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                              ],
-                            ),
-                            ElevatedButton(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.black,
-                                foregroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                              ),
-                              child: const Text("let's start"),
-                            ),
-                          ],
-                        ),
-                      ],
+                  const Center(
+                    child: Text(
+                      "Enter Your Test Name ",
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                   ),
                   const SizedBox(height: 20),
-                  Container(
-                    padding: const EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade100,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Row(
-                      children: [
-                        Stack(
-                          children: List.generate(3, (index) {
-                            return Positioned(
-                              left: index * 20,
-                              child: CircleAvatar(
-                                radius: 15,
-                                backgroundImage: AssetImage('assets/profile${index + 1}.png'),
-                              ),
-                            );
-                          }),
+                  Expanded(
+                    child: TextField(
+                      controller: questionController,
+                      maxLines: null, // Allows dynamic height expansion
+                      expands: true, // Ensures it fills available space
+                      keyboardType: TextInputType.multiline,
+                      textAlignVertical: TextAlignVertical.top,
+                      decoration: InputDecoration(
+                        hintText: "Enter here...",
+                        hintStyle: TextStyle(color: Colors.grey[600]),
+                        filled: true,
+                        fillColor: Colors.white,
+                        contentPadding: const EdgeInsets.all(15),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(
+                              color: Colors.blueAccent, width: 2),
                         ),
-                        const SizedBox(width: 50),
-                        const Expanded(
-                          child: Text(
-                            "The top champions",
-                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                          ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide:
+                              const BorderSide(color: Colors.blue, width: 2),
                         ),
-                        const Icon(Icons.arrow_forward_ios, size: 16),
-                      ],
+                      ),
                     ),
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text("Cancel",
+                            style: TextStyle(color: Colors.red, fontSize: 16)),
+                      ),
+                      const SizedBox(width: 10),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blueAccent,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                        ),
+                        onPressed: () {
+                          if (questionController.text.isNotEmpty) {
+                            _addNewTile(questionController.text);
+                            Navigator.pop(context);
+                          }
+                        },
+                        child: const Text("Add",
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 16)),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
           ),
-        ],
+        );
+      },
+    );
+  }
+
+  void _handleTileTap(String question, int index) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Qa_statistics_screen(
+          questionNumber: index + 1,
+          questionText: question,
+          marks: 5, // Example marks assigned to each question
+          correctCount: 15, // Example data (fetch actual from database)
+          incorrectCount: 5, // Example data (fetch actual from database)
+        ),
       ),
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    return Scaffold(
+      backgroundColor: const Color(0xFFE0E5EC),
+      appBar: AppBar(
+        title: const Text("Question Library"),
+        backgroundColor: Colors.blueGrey,
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Wrap(
+            spacing: 10,
+            runSpacing: 20,
+            children: List.generate(tileData.length, (index) {
+              final data = tileData[index];
+              return SizedBox(
+                width: (screenWidth - 40) / 2,
+                child: _buildQuestionTile(
+                  serial: index + 1,
+                  title: data['text']!,
+                  subtitle: data['subtitle']!,
+                  onTap: () => _handleTileTap(data['text']!, index),
+                ),
+              );
+            }),
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _showAddQuestionDialog,
+        backgroundColor: Colors.blueAccent,
+        child: const Icon(Icons.add, size: 30),
+      ),
+    );
+  }
+}
+
+Widget _buildQuestionTile({
+  required int serial,
+  required String title,
+  required String subtitle,
+  required VoidCallback onTap,
+}) {
+  return GestureDetector(
+    onTap: onTap,
+    child: Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(228, 218, 234, 230),
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(color: Colors.white),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Q$serial",
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+              color: Colors.blueAccent,
+            ),
+          ),
+          const SizedBox(height: 5),
+          Text(
+            title,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+          const SizedBox(height: 5),
+          Text(
+            subtitle,
+            style: const TextStyle(color: Colors.grey, fontSize: 12),
+          ),
+        ],
+      ),
+    ),
+  );
 }

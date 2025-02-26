@@ -63,7 +63,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                   const CircleAvatar(
                     radius: 30,
-                    backgroundImage: AssetImage('assets/images/school_see_logo.png'),
+                    backgroundImage:
+                        AssetImage('assets/images/school_see_logo.png'),
                   ),
                 ],
               ),
@@ -137,7 +138,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Navigation(initialScreen: const AttendencePage()),
+                            builder: (context) => Navigation(
+                                initialScreen: const AttendencePage()),
                           ),
                         );
                       },
@@ -149,7 +151,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Navigation(initialScreen: const Digitalclasses()),
+                            builder: (context) => Navigation(
+                                initialScreen: const Digitalclasses()),
                           ),
                         );
                       },
@@ -161,7 +164,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Navigation(initialScreen: const PlaceholderScreen(title: 'School Calendar')),
+                            builder: (context) => Navigation(
+                                initialScreen: const PlaceholderScreen(
+                                    title: 'School Calendar')),
                           ),
                         );
                       },
@@ -172,7 +177,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => ClassSelectionScreen()),
+                          MaterialPageRoute(
+                              builder: (context) => ClassSelectionScreen()),
                         );
                       },
                     ),
@@ -183,7 +189,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Navigation(initialScreen: ResultsPage()),
+                            builder: (context) =>
+                                Navigation(initialScreen: ResultsPage()),
                           ),
                         );
                       },
@@ -195,7 +202,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Navigation(initialScreen: QAExamScreen()),
+                            builder: (context) =>
+                                Navigation(initialScreen: InvertedLibrary()),
                           ),
                         );
                       },
@@ -207,7 +215,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Navigation(initialScreen: const PlaceholderScreen(title: 'Time Table')),
+                            builder: (context) => Navigation(
+                                initialScreen: const PlaceholderScreen(
+                                    title: 'Time Table')),
                           ),
                         );
                       },
@@ -275,7 +285,8 @@ class _DashboardCard extends StatelessWidget {
 class PlaceholderScreen extends StatelessWidget {
   final String title;
 
-  const PlaceholderScreen({Key? key, required this.title}) : super(key: key); // Added Key? key
+  const PlaceholderScreen({Key? key, required this.title})
+      : super(key: key); // Added Key? key
 
   @override
   Widget build(BuildContext context) {
