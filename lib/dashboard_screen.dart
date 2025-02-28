@@ -138,8 +138,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Navigation(
-                                initialScreen:  AttendancePage()),
+                            builder: (context) =>
+                                Navigation(initialScreen: AttendancePage()),
                           ),
                         );
                       },
@@ -152,7 +152,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => Navigation(
-                                initialScreen: const Digitalclasses()),
+                                initialScreen:  UploadPage()),
                           ),
                         );
                       },
@@ -218,6 +218,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             builder: (context) => Navigation(
                                 initialScreen: const PlaceholderScreen(
                                     title: 'Time Table')),
+                          ),
+                        );
+                      },
+                    ),
+                    _DashboardCard(
+                      title: 'Online Exams ',
+                      icon: Icons.book,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                Navigation(initialScreen: InvertedLibrary()),
                           ),
                         );
                       },

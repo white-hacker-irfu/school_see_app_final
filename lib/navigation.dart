@@ -21,7 +21,8 @@ class Navigation extends StatefulWidget {
 class NavigationState extends State<Navigation> {
   int selectedIndex = 2; // Changed here
 
-  final List<Widget> screens = [ // Changed here
+  final List<Widget> screens = [
+    // Changed here
     const Placeholder(),
     NotificationsPage(),
     const DashboardScreen(),
@@ -37,18 +38,25 @@ class NavigationState extends State<Navigation> {
     currentScreen = widget.initialScreen; // Changed here
   }
 
-  Color getNavBarBackgroundColor() { // Changed here
-    if (currentScreen is DashboardScreen) { // Changed here
+  Color getNavBarBackgroundColor() {
+    // Changed here
+    if (currentScreen is DashboardScreen) {
+      // Changed here
       return const Color(0xFFF5F7FB);
-    } else if (currentScreen is EducationPage) { // Changed here
+    } else if (currentScreen is UploadPage) {
+      // Changed here
       return const Color(0xFFF5F7FB);
-    } else if (currentScreen is FeeStatusPage) { // Changed here
+    } else if (currentScreen is FeeStatusPage) {
+      // Changed here
       return Colors.white;
-    } else if (currentScreen is BusTrackingScreen) { // Changed here
+    } else if (currentScreen is BusTrackingScreen) {
+      // Changed here
       return Colors.deepPurple;
-    } else if (currentScreen is ResultsPage) { // Changed here
+    } else if (currentScreen is ResultsPage) {
+      // Changed here
       return Colors.white;
-    } else if (currentScreen is NotificationsPage) { // Changed here
+    } else if (currentScreen is NotificationsPage) {
+      // Changed here
       return const Color(0xFF00C853);
     } else {
       return const Color(0xFFF5F7FB);

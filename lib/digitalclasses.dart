@@ -1,184 +1,164 @@
 import 'package:flutter/material.dart';
-import 'subjectclasses_page.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
-void main() {
-  runApp(const Digitalclasses());
+class UploadPage extends StatefulWidget {
+  @override
+  _UploadPageState createState() => _UploadPageState();
 }
 
-class Digitalclasses extends StatelessWidget {
-  const Digitalclasses({super.key});
+class _UploadPageState extends State<UploadPage> {
+  final TextEditingController subjectController = TextEditingController();
+  final TextEditingController topicController = TextEditingController();
+  final TextEditingController youtubeUrlController = TextEditingController();
+  File? selectedFile; // To store the uploaded file
+  bool isVideo = false; // To check if it's a video file
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Education Page',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const EducationPage(),
+  // Function to pick an image or video
+  Future<void> _pickFile() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickMedia();
+
+    if (pickedFile != null) {
+      setState(() {
+        selectedFile = File(pickedFile.path);
+        isVideo = pickedFile.path.endsWith('.mp4') ||
+            pickedFile.path.endsWith('.mov') ||
+            pickedFile.path.endsWith('.avi');
+      });
+    }
+  }
+
+  // Function to handle the upload process
+  void _uploadData() {
+    String subject = subjectController.text.trim();
+    String topic = topicController.text.trim();
+    String youtubeUrl = youtubeUrlController.text.trim();
+
+    if (subject.isEmpty || topic.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Please enter both Subject and Topic")),
+      );
+      return;
+    }
+
+    if (selectedFile == null && youtubeUrl.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content:
+                Text("Please upload an image/video or enter a YouTube link")),
+      );
+      return;
+    }
+
+    // Perform the upload logic here
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("Uploaded Successfully!")),
     );
   }
-}
-
-class EducationPage extends StatelessWidget {
-  const EducationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Education Page'),
-        backgroundColor: Colors.orange,
+        title: const Text("Upload Content"),
+        backgroundColor: Colors.blueGrey,
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // "Most Viewed" Section
-              const Text(
-                'Most Viewed',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 10),
-              SizedBox(
-                height: 150, // Increased size to show 2 items
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    _buildLargeCircularBanner('Maths', 'assets/images/maths.png'),
-                    _buildLargeCircularBanner('Science', 'assets/images/science.png'),
-                    _buildLargeCircularBanner('Social', 'assets/images/social.png'),
-                    _buildLargeCircularBanner('English', 'assets/images/english2.png'),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 30),
-              // Subjects Section
-              const Text(
-                'Subjects',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 10),
-              _buildSubjectCard(
-                  context, 'Mathematics', 'assets/images/maths.png', Colors.blue),
-              const SizedBox(height: 10),
-              _buildSubjectCard(
-                  context, 'Science', 'assets/images/science.png', Colors.green),
-              const SizedBox(height: 10),
-              _buildSubjectCard(
-                  context, 'Social', 'assets/images/social.png', Colors.purple),
-              const SizedBox(height: 10),
-              _buildSubjectCard(
-                  context, 'English', 'assets/images/english2.png', Colors.red),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  // Large Circular Banner Widget
-  Widget _buildLargeCircularBanner(String title, String imagePath) {
-    return Column(
-      children: [
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 8.0),
-          width: 120, // Increased size
-          height: 120,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            image: DecorationImage(
-              image: AssetImage(imagePath),
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
-        const SizedBox(height: 5),
-        Text(
-          title,
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-        ),
-      ],
-    );
-  }
-
-  // Subject Card Widget
-  Widget _buildSubjectCard(
-      BuildContext context, String title, String imagePath, Color color) {
-    return GestureDetector(
-      onTap: () {
-        // Navigate to a new page on tap
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => CourseListPage(),
-          ),
-        );
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: color.withOpacity(0.8),
-          borderRadius: BorderRadius.circular(15),
-          border: Border.all(color: Colors.white, width: 2), // Added white border
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.2),
-              blurRadius: 10,
-              offset: const Offset(0, 5),
-            ),
-          ],
-        ),
-        child: Row(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(15),
-                bottomLeft: Radius.circular(15),
-              ),
-              child: Image.asset(
-                imagePath,
-                width: 120, // Increased size
-                height: 100,
-                fit: BoxFit.cover,
+            // Subject Input Field
+            TextField(
+              controller: subjectController,
+              decoration: InputDecoration(
+                labelText: "Subject Name",
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                prefixIcon: const Icon(Icons.book),
               ),
             ),
-            const SizedBox(width: 15),
-            Expanded(
-              child: Text(
-                title,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+            const SizedBox(height: 15),
+
+            // Topic Input Field
+            TextField(
+              controller: topicController,
+              decoration: InputDecoration(
+                labelText: "Topic Name",
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                prefixIcon: const Icon(Icons.topic),
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            // Upload Button (Gallery)
+            Center(
+              child: Container(
+                width: 200,
+                child: ElevatedButton.icon(
+                  onPressed: _pickFile,
+                  icon: const Icon(Icons.upload_file),
+                  label: const Text(
+                    " Upload from Gallery  ",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.lightBlue,
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                  ),
                 ),
               ),
             ),
+
+            if (selectedFile != null) ...[
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Icon(isVideo ? Icons.video_file : Icons.image,
+                      color: Colors.green),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      "Selected: ${selectedFile!.path.split('/').last}",
+                      style: const TextStyle(
+                          color: Colors.green, fontWeight: FontWeight.bold),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+
+            const SizedBox(height: 20),
+
+            // YouTube Link Input Field
+            TextField(
+              controller: youtubeUrlController,
+              decoration: InputDecoration(
+                labelText: "YouTube URL (Optional)",
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                prefixIcon: const Icon(Icons.link),
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            // Upload Button
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: _uploadData,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  textStyle: const TextStyle(fontSize: 18),
+                ),
+                child: const Text("Upload"),
+              ),
+            ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-// Subject Detail Page
-class SubjectDetailPage extends StatelessWidget {
-  final String title;
-
-  const SubjectDetailPage({super.key, required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-        backgroundColor: Colors.orange,
-      ),
-      body: Center(
-        child: Text(
-          'Welcome to $title!',
-          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
       ),
     );

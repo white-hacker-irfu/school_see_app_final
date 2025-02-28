@@ -7,7 +7,7 @@ import 'dart:ui';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const SchoolSeeApp());
+  runApp( SchoolSeeApp());
 }
 
 class SchoolSeeApp extends StatelessWidget {
